@@ -1,0 +1,17 @@
+app_name: ctfd-app
+image: 'ctfd/ctfd'
+resources:
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+ports:
+  containerPort: 8000
+  port: 8000
+replicas: 1
+service:
+  type: ClusterIP
+ingress:
+  name: ctfd-ingress
+  class: nginx
+  host: "ctfd"
+  pathType: Prefix

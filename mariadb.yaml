@@ -1,0 +1,7 @@
+auth:
+  username: ctfd
+  password: ctfd
+  database: ctfd
+  rootPassword: ctfd
+securityContext:
+  fsGroup: 2000

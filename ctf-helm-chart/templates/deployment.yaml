@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app_name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:    
+      app: {{ .Values.app_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app_name }}
+    spec:
+      securityContext:
+        fsGroup: 2000
+      volumes:
+      - name: ctf-logs
+        persistentVolumeClaim:
+          claimName: ctf-logs
+      - name: ctf-uploads
+        persistentVolumeClaim:
+          claimName: ctf-uploads
+      containers:
+      - name: {{ .Values.app_name }}
+        image: {{ .Values.image }}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
+            cpu: {{ .Values.resources.limits.cpu }}
+        ports:
+        - containerPort: {{ .Values.ports.containerPort }}
+        volumeMounts:
+        - mountPath: /var/log/CTFd
+          name: ctf-logs
+        - mountPath: /var/uploads
+          name: ctf-uploads
